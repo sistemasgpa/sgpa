@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+<head>
+<title th:text="#{form.user.register.title}"></title>
+</head>
+
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header">
+				<h1><span th:text="#{form.user.register.title}"></span>
+					<small th:text="#{form.user.register.message}"></small>
+				</h1>
+			</header>
+		</div>
+	</div>
+	
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+
+
+				<th:block th:include="layout/mensagemSucesso"></th:block>
+
+				<form th:action="@{/usuario/cadastrar}" method="post"
+					th:object="${usuario}">
+
+					<th:block th:include="layout/mensagemErro"></th:block>
+
+					<input type="hidden" th:field="*{id}" />
+
+					<fieldset>
+						<legend th:text="#{form.user.register.information}"></legend>
+						<div class="form-group col-md-4">
+							<label for="nome" th:text="#{form.user.register.name}"></label> <input type="text"
+								class="form-control" id="nome" name="nome" th:field="*{nome}" />
+						</div>
+
+						<div class="form-group col-md-4">
+							<label for="email" th:text="#{form.user.register.email}"></label> <input type="text"
+								class="form-control" id="email" name="email" th:field="*{email}" />
+						</div>
+
+						<div class="form-group col-md-4">
+							<label for="cpf" th:text="#{form.user.register.cpf}"></label> <input type="text"
+								class="form-control" id="cpf" name="cpf" th:field="*{cpf}" />
+						</div>
+
+						<div class="form-group col-md-4">
+							<label for="rg" th:text="#{form.user.register.rg}"></label> <input type="text"
+								class="form-control" id="rg" name="rg" th:field="*{rg}" />
+						</div>
+
+						<div class="form-group col-md-4">
+							<label for="dataNascimento" th:text="#{form.user.register.birthdate}"></label> <input
+								type="date" class="form-control" id="dataNascimento"
+								name="dataNascimento" th:field="*{dataNascimento}" />
+						</div>
+
+						<div class="form-group col-md-4">
+							<label for="codigoAcademico" th:text="#{form.user.register.code}"></label> <input
+								type="text" class="form-control" id="codigoAcademico" name="rg"
+								th:field="*{codigoAcademico}" />
+						</div>
+					</fieldset>
+
+					<fieldset>
+						<legend th:text="#{form.user.register.contacts}"></legend>
+						<div class="form-group col-md-4">
+							<label for="telefone" th:text="#{form.user.register.phone}"></label> <input type="text"
+								class="form-control" id="telefone" name="telefone"
+								th:field="*{telefone}" />
+						</div>
+						<div class="form-group col-md-4">
+							<label for="celular" th:text="#{form.user.register.cellphone}"></label> <input type="text"
+								class="form-control" id="celular" name="celular"
+								th:field="*{celular}" />
+						</div>
+						<div class="form-group col-md-4">
+							<label for="endereco" th:text="#{form.user.register.address}"></label> <input type="text"
+								class="form-control" id="endereco" name="endereco"
+								th:field="*{endereco}" />
+						</div>
+					</fieldset>
+
+					<fieldset>
+						<legend th:text="#{form.user.register.departments}"></legend>
+						<div class="form-group col-md-4">
+							<label for="grupo" th:text="#{form.user.register.departments}"></label> <select
+								class="form-control" id="departamento" name="grupo"
+								th:field="*{departamento}">
+								<option th:each="departamento : ${departamentos}"
+									th:value="${departamento.id}"
+									th:text="|${departamento.nome} (${departamento.sigla})|"></option>
+							</select>
+							<p class="help-block" th:text="#{form.user.register.departments.message}"></p>
+						</div>
+
+					</fieldset>
+
+					<fieldset>
+						<legend th:text="#{form.user.register.permissions}"></legend>
+						<div class="form-group col-md-4">
+							<label for="grupo" th:text="#{form.user.register.group}"></label> <select class="form-control"
+								id="grupo" name="grupo" th:field="*{grupo}">
+								<option th:each="grupo : ${grupos}" th:value="${grupo}"
+									th:text="${grupo.descricao}"></option>
+							</select>
+						</div>
+						<div class="form-group col-md-8">
+							<p class="help-block" th:text="#{form.user.register.group.default}"></p>
+							<p class="help-block" th:text="#{form.user.register.group.administrators}"></p>
+						</div>
+
+					</fieldset>
+
+					<fieldset>
+						<div class="form-group col-md-12">
+							<label for="observacao" th:text="#{form.user.register.observation}"></label>
+							<textarea class="form-control" id="observacao" name="observacao"
+								rows="5" th:field="*{observacao}"></textarea>
+						</div>
+					</fieldset>
+					<div>
+						<button id="salvar-usuario" type="submit"
+							class="btn btn-default pull-right" th:text="#{form.user.register.button}"></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div layout:fragment="layout-scripts">
+		<script src="../static/js/jquery.mask.min.js"
+			th:src="@{/js/jquery.mask.min.js}"></script>
+		<script>
+			(function() {
+				$(document).ready(function() {
+					$('#telefone').mask('(00) 0000-0000');
+					$('#celular').mask('(00) 00000-0000');
+					$('#cpf').mask('000.000.000-00', {
+						reverse : true
+					});
+
+				});
+
+			}());
+		</script>
+
+	</div>
+
+
+
+</body>
+</html>

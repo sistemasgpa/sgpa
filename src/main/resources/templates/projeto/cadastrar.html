@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+
+<head>
+<title th:text="#{form.project.register.page.title}"></title>
+</head>
+
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header">
+				<h1><span th:text="#{form.project.register.page.title}"></span>
+					<small th:text="#{form.project.register.message}"></small>
+				</h1>
+			</header>
+		</div>
+	</div>
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+				<th:block th:include="layout/mensagemSucesso"></th:block>
+
+				<form th:action="@{/projeto/cadastrar}" method="post"
+					th:object="${projeto}">
+
+					<input type="hidden" th:field="*{id}" />
+
+					<th:block th:include="layout/mensagemErro"></th:block>
+
+					<fieldset>
+						<legend th:text="#{form.project.register.information}"></legend>
+						<div class="form-group col-md-9">
+							<label for="titulo" th:text="#{form.project.register.title}"></label>
+							<input type="text" class="form-control" th:field="*{titulo}" />
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="categoria" th:text="#{form.project.register.category}"></label>
+								<select class="form-control" th:field="*{categoria}">
+									<option value="" th:text="#{form.project.register.category.message}"></option>
+									<option th:each="categoria : ${listaCategoriaProjeto}"
+									th:value="${categoria.id}" th:text="${categoria.nome}"></option>
+							</select>
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="dataNascimento" th:text="#{form.project.register.startdate}"></label>
+							<input type="date" class="form-control" th:field="*{dataInicio}" />
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="dataNascimento" th:text="#{form.project.register.enddate}"></label>
+							<input type="date" class="form-control" th:field="*{dataTermino}" />
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="status"  th:text="#{form.project.register.status}"></label>
+							<select class="form-control" th:field="*{status}">
+								<option value="" th:text="#{form.project.register.status.message}"></option>
+								<option th:each="status : ${listaStatusProjeto}"
+									th:value="${status}" th:text="${status.descricao}"></option>
+							</select>
+						</div>
+					</fieldset>
+
+					<fieldset>
+						<legend th:text="#{form.project.register.members}"></legend>
+						<p class="col-md-12" th:text="#{form.project.register.members.message}"></p>
+						<div class="form-group col-md-6">
+							<label for="nome" th:text="#{form.project.register.members.search}"></label>
+							<input type="text" class="form-control" id="input-usuario"
+								name="input-usuario" />
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="grupo" th:text="#{form.project.register.members.type}"></label>
+							<select class="form-control" id="tipoParticipacao" name="tipoParticipacao">
+								<option th:each="tipoParticipacao : ${listaTipoParticipacao}"
+									th:value="${tipoParticipacao}"
+									th:text="${tipoParticipacao.descricao}"></option>
+							</select>
+						</div>
+						<div class="form-group col-md-3">
+							<button id="btn-adicionar-participante" type="button"
+								class="btn btn-default btn-inline" th:text="#{form.project.register.members.button}">
+							</button>
+						</div>
+
+
+						<div id="secao-participacoes" class="form-group col-md-12">
+							<label for="grupo" th:text="#{form.project.register.members.table}"></label>
+
+							<table id="tabela-participacoes" class="table">
+								<thead>
+									<tr>
+										<th th:text="#{form.project.register.members.user}"></th>
+										<th th:text="#{form.project.register.members.type}"></th>
+										<th th:text="#{form.project.register.members.action}"></th>
+									</tr>
+								</thead>
+								<tbody id="conteudo-participacoes">
+
+									<tr class="item-participante"
+										th:each="participacao, stat : *{equipe}"
+										th:attr="data-id=${participacao.id == null ? ' ' : participacao.id}, data-id-usuario=${participacao.usuario.id}, data-nome=${participacao.usuario.nome}, data-tipo=${participacao.tipoParticipacao}">
+										<td th:text="${participacao.usuario.nome}"></td>
+										<td th:text="${participacao.tipoParticipacao}"></td>
+
+
+										<td><a class="btn btn-default btn-remover-participante"
+											th:attr="data-id=${participacao.usuario.id}" th:text="#{form.project.register.members.remove}"></a></td>
+										<input type="hidden" th:name="|equipe[${stat.index}].id|"
+											th:id="|equipe[${stat.index}].id|"
+											th:value="${participacao.id}" />
+										<input type="hidden"
+											th:name="|equipe[${stat.index}].usuario.id|"
+											th:id="|equipe[${stat.index}].usuario.id|"
+											th:value="${participacao.usuario.id}" />
+										<input type="hidden"
+											th:name="|equipe[${stat.index}].usuario.nome|"
+											th:id="|equipe[${stat.index}].usuario.nome|"
+											th:value="${participacao.usuario.nome}" />
+										<input type="hidden"
+											th:name="|equipe[${stat.index}].tipoParticipacao|"
+											th:id="|equipe[${stat.index}].tipoParticipacao|"
+											th:value="${participacao.tipoParticipacao}" />
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend th:text="#{form.project.register.infodata}"></legend>
+
+						<div class="form-group col-md-12">
+							<label for="descricao" th:text="#{form.project.register.description}"></label>
+							<textarea class="form-control" rows="5" th:field="*{descricao}"></textarea>
+						</div>
+						
+						<div class="form-group col-md-12">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="" id="visivel" name="visivel" th:field="*{visivel}" />
+									<span th:text="#{form.project.register.showsite}"></span>
+								</label>
+							</div>
+						</div>
+					</fieldset>
+
+					<div>
+						<button id="salvar-usuario" type="submit"
+							class="btn btn-default pull-right" th:text="#{form.project.register.button}"></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<th:block layout:fragment="layout-scripts">
+		<script src="../static/js/jquery.autocomplete.min.js"
+			th:src="@{/js/jquery.autocomplete.min.js}"></script>
+		<script src="../static/js/modulos/projetos/FormProjeto.js"
+			th:src="@{/js/modulos/projetos/FormProjeto.js}"></script>
+		<script src="../static/js/modulos/projetos/Participacao.js"
+			th:src="@{/js/modulos/projetos/Participacao.js}"></script>
+
+		<script>
+			(function() {
+				$(document).ready(function() {
+					FormProjeto.init();
+
+				});
+			}());
+		</script>
+	</th:block>
+</body>
+</html>

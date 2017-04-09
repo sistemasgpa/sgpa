@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+	
+	<th:block layout:fragment="css-stylesheets">
+		<link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet" />
+	</th:block>
+	
+
+<head>
+<title th:text="#{form.news.register.page.title}"></title>
+</head>
+
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header">
+				<h1><span th:text="#{form.news.register.page.title}"></span>
+					<small th:text="#{form.news.register.message}"></small>
+				</h1>
+			</header>
+		</div>
+	</div>
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+				<th:block th:include="layout/mensagemSucesso"></th:block>
+
+				<form th:action="@{/noticia/cadastrar}" method="post" th:object="${noticia}">
+
+					<input type="hidden" th:field="*{id}" />
+
+					<th:block th:include="layout/mensagemErro"></th:block>
+
+					<fieldset>
+						<legend th:text="#{form.news.register.information}"></legend>
+						<div class="form-group col-md-8">
+							<label for="titulo" th:text="#{form.news.register.title}"></label>
+							<input type="text" class="form-control" th:field="*{titulo}" />
+						</div>
+
+						<div class="form-group col-md-2">
+							<label for="categoria" th:text="#{form.news.register.category}"></label>
+								<select class="form-control" th:field="*{categoria}">
+									<option th:each="categoria : ${listaCategoriaNoticia}"
+									th:value="${categoria.id}" th:text="${categoria.descricao}"></option>
+							</select>
+						</div>
+
+						<div class="form-group col-md-2">
+							<label for="data" th:text="#{form.news.register.date}"></label>
+							<input type="date" class="form-control" th:field="*{data}" />
+						</div>
+
+						
+						<div class="form-group col-md-12">
+							<label for="conteudo" th:text="#{form.news.register.content}"></label>
+							<textarea class="form-control" rows="8" th:field="*{conteudo}"></textarea>
+						</div>
+						
+						
+					</fieldset>
+
+					<div>
+						<button id="salvar-noticia" type="submit"
+							class="btn btn-default pull-right" th:text="#{form.news.register.button}"></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

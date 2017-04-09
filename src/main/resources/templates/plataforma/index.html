@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="plataforma/layout">
+<head>
+<title th:text="#{site.name}"></title>
+</head>
+<body>
+
+	<div layout:fragment="layout-container" class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="page-header">
+					<h1 class="h1-home">
+						<span th:text="#{site.index.title}"></span> <small
+							th:text="#{site.index.subtitle}"></small>
+					</h1>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="page-section">
+					<h2 th:text="#{site.index.section.projects}"></h2>
+				</div>
+			</div>
+
+			<div class="col-sm-12 col-md-6" th:each="projeto : ${projetos}">
+				<div class="media">
+					<div class="media-body">
+						<a href="detalhe-projeto.html" class="media-heading"
+							th:href="|/site/projetos/${projeto.id}|">
+							<h2 th:text="${projeto.titulo}"></h2>
+						</a>
+						<p class="media-dest">
+							<span th:text="${projeto.categoria.nome}"></span>
+						</p>
+						<p th:text="${#strings.abbreviate(projeto.descricao,150)}"></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-12">
+				<div class="page-section">
+					<h2 th:text="#{site.index.section.news}"></h2>
+				</div>
+			</div>
+
+			<div class="noticia col-md-12" th:each="noticia : ${noticias}">
+				<a th:href="|/site/noticias/${noticia.id}" class="noticia-titulo">
+					<h2 th:text="${noticia.titulo}"></h2>
+				</a>
+				<p class="noticia-chamada" th:text="${#strings.abbreviate(noticia.conteudo,100)}"></p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

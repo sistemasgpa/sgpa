@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+<head>
+<title>Estudos do Projeto</title>
+</head>
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header page-header-projeto">
+				<h1>
+					<span th:text="${projeto.titulo}" th:remove="tag"></span> 
+					<small>Registre seus estudos</small>
+				</h1>
+				<th:block th:include="layout/menuProjeto"></th:block>
+			</header>
+		</div>
+	</div>
+
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="conteudo-centro">
+					<div class="acao">
+						<a id="btn-adicionar-estudo" class="btn btn-default btn-add-modulo" th:href="|/projeto/${projeto.id}/estudo/cadastrar|">
+							Registrar Novo Estudo
+						</a>
+					</div>
+					<div class="principal">
+						
+						<th:block th:include="layout/mensagemSucesso"></th:block>
+					
+						<table class="table table-crud" th:if="${not #lists.isEmpty(estudos)}">
+							<thead>
+								<tr>
+									<th>Título</th>
+									<th>Tipo</th>
+									<th>Ano</th>
+									<th>Autoria</th>
+									<th>Membro</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="estudo : ${estudos}">
+									<td>
+										<a th:href="|/projeto/${projeto.id}/estudo/${estudo.id}|" th:text="${estudo.titulo}"></a>
+									</td>
+									<td th:text="${estudo.tipo.descricao}"></td>
+									<td th:text="${estudo.ano}"></td>
+									<td th:text="${estudo.autoria}"></td>
+									<td th:text="${estudo.participacao.usuario.nome}"></td>
+									<th:block th:with="expr_result = ${participacao.isCoordenador() or estudo.participacao.usuario.email == participacao.usuario.email}">
+										<td th:if="${expr_result}">
+											<a class="btn btn-acao" th:href="|/projeto/${projeto.id}/estudo/${estudo.id}/editar|" >
+												<span class="glyphicon glyphicon-pencil"></span>
+											</a>
+											<a class="btn btn-acao" th:href="|/projeto/${projeto.id}/estudo/${estudo.id}/excluir|">
+												<span class="glyphicon glyphicon-remove"></span>
+											</a>
+										</td>
+										<td th:unless="${expr_result}"></td>
+									</th:block>
+								</tr>
+							</tbody>
+						</table>
+						<p th:if="${#lists.isEmpty(estudos)}">Nenhum Estudo Registrado</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

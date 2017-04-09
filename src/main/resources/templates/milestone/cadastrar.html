@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+
+<head>
+<title th:text="#{form.milestone.register.page.title}"></title>
+</head>
+
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header page-header-projeto">
+				<h1>
+					<span th:text="${projeto.titulo}" th:remove="tag"></span> <small
+						th:text="#{form.milestone.register.message}"></small>
+				</h1>
+				<th:block th:include="layout/menuProjeto"></th:block>
+			</header>
+		</div>
+	</div>
+
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+
+				<th:block th:include="layout/mensagemSucesso"></th:block>
+
+				<form th:action="|/projeto/${projeto.id}/milestone|" method="post"
+					th:object="${milestone}">
+
+					<input type="hidden" th:field="*{id}" /> <input type="hidden"
+						name="projeto" th:value="${projeto.id}" />
+
+					<th:block th:include="layout/mensagemErro"></th:block>
+
+					<fieldset>
+						<legend th:text="#{form.milestone.register.information}"></legend>
+						<div class="form-group col-md-10">
+							<label for="titulo" th:text="#{form.milestone.register.title}"></label>
+							<input type="text" class="form-control" th:field="*{titulo}" />
+						</div>
+						<div class="form-group col-md-2">
+							<label for="totalConcluido"
+								th:text="#{form.milestone.register.total}"></label> <input
+								type="number" min="0" max="100" class="form-control"
+								th:field="*{totalConcluido}" />
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="dataInicio"
+								th:text="#{form.milestone.register.startdate}"></label> <input
+								type="date" class="form-control" th:field="*{dataInicio}" />
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="dataLimite"
+								th:text="#{form.milestone.register.enddate}"></label> <input
+								type="date" class="form-control" th:field="*{dataLimite}" />
+						</div>
+						<div class="form-group col-md-12">
+							<label for="descricao"
+								th:text="#{form.milestone.register.description}"></label>
+							<textarea class="form-control" rows="5" th:field="*{descricao}"></textarea>
+						</div>
+					</fieldset>
+					<div>
+						<button type="submit" class="btn btn-default pull-right"
+							th:text="#{form.milestone.register.button}"></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

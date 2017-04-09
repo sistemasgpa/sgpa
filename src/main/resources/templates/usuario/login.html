@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title th:text="#{form.login.title}"></title>
+
+<link href="../static/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<link href="../static/css/app.css" th:href="@{/css/app.css}"
+	rel="stylesheet" />
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+	<div class="wrapper">
+		<form class="form-wrapper" th:action="@{/doLogin}" method="post">
+			<h2 class="form-wrapper-text" th:text="#{form.login.title}"></h2>
+			<p th:text="#{form.login.message}"></p>
+
+			<th:block th:include="layout/mensagemSucesso"></th:block>
+			<div th:if="${param.error}">Usuário ou Senha Incorreta</div>
+
+			<label for="username" th:text="#{form.login.username}"></label> <input
+				type="text" class="form-control" id="username" name="username" /> <label
+				for="password" th:text="#{form.login.password}"></label> <input
+				type="password" class="form-control" id="password" name="password" />
+
+			<button id="btn-login" type="submit"
+				class="btn btn-default pull-right" th:text="#{form.login.button}"></button>
+
+			<a th:href="@{/usuario/recuperarsenha}"
+				th:text="#{form.login.passwordforgot}"></a>
+		</form>
+	</div>
+
+</body>
+</html>

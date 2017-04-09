@@ -1,0 +1,244 @@
+body {
+    padding-top: 110px;
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 16px;
+}
+
+p, a, li, label {
+    font-family: Lora,'Times New Roman',serif;
+}
+
+.page-header{
+    padding-bottom: 25px;
+    margin: 0 0 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.form-filter {
+    border-bottom: 1px solid #eee;
+    margin: 0 0 40px 0;
+    padding: 10px 0;
+}
+
+.page-section{
+    padding-bottom: 10px;
+    margin: 10px 0 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.page-section h2{
+    margin-top: 0px;
+    font-size: 20px;
+    color:#000;
+}
+
+
+
+.btn-filter {
+    margin-top: 27px;
+}
+
+
+h1 {
+    margin-top: 0;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+h1 small {
+    display: block;
+    font-size: 50%;
+    margin-top: 7px;
+}
+
+.h1-home {
+    font-size: 50px;
+    margin: 16px 0 22px 0;
+    text-align: center;
+    color:#333;
+    padding-bottom: 18px;
+}
+
+.media {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.media h2 {
+    font-size: 19px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    line-height: 1.3;
+}
+
+.media a {
+    color: #333;
+}
+
+.media-object {
+    margin-right: 5px;
+}
+
+.media .media-dest {
+    font-weight: bold;
+
+}
+
+.media .media-heading {
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+
+.desc-project {
+    font-size: 16px;
+}
+
+textarea.form-control {
+    height: 150px;
+}
+
+.footer {
+    padding: 30px 0;
+}
+
+.footer-msg {
+    font-size: 12px;
+}
+
+.noticia {
+    border-bottom: 1px solid #eee;
+}
+
+.noticia-titulo {
+    font-size: 19px;
+    color: #333;
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+
+.noticia-titulo h2 {
+    font-size: 20px; 
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+    line-height: 1.3;
+}
+
+.noticia-chamada {
+    margin-top: 0;
+    padding-bottom: 0px;
+}
+
+.noticia-detalhes {
+    display: block;
+    color: #666;
+    margin-top: 5px;
+    font-size:13px;
+    margin-top: 0px;
+}
+
+.noticia-chamada small {
+    display: block;
+    color: #666;
+    margin-top: 5px;
+}
+
+
+.data-project {
+    margin: 20px 0 30px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 20px 0;
+}
+
+.img-project {
+    float:left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+
+.link-voltar {
+    margin-bottom: 20px; 
+    display: block;
+    color: #333;
+}
+
+
+.navbar {
+    min-height: 70px;
+}
+
+.navbar-brand {
+    font-size: 22px;
+    color:#fff !important;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.navbar-nav>li>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 40px;
+}
+
+a:hover {
+    color:#333;
+}
+
+
+
+.titulo-categoria {
+    margin-top: 0px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.list-group-item:first-child,
+.list-group-item:last-child {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*** Works on common browsers ***/
+::selection {
+    background-color: #aaa;
+    color: #fff;
+}
+
+/*** Mozilla based browsers ***/
+::-moz-selection {
+    background-color: #aaa;
+    color: #fff;
+}
+
+/***For Other Browsers ***/
+::-o-selection {
+    background-color: #aaa;
+    color: #fff;
+}
+
+::-ms-selection {
+    background-color: #aaa;
+    color: #fff;
+}
+
+/*** For Webkit ***/
+::-webkit-selection {
+    background-color: #aaa;
+    color: #fff;
+}
+
+
+

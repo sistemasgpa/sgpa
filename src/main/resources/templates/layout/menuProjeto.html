@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<nav class="nav-projeto">
+	<ul class="nav nav-tabs">
+		<li th:classappend="${#httpServletRequest.getRequestURI().contains('/milestone') ? 'active':''}"><a th:href="|/projeto/${projeto.id}/milestone|">Milestones</a></li>
+		<li th:classappend="${#httpServletRequest.getRequestURI().contains('/tarefa') ? 'active':''}"><a th:href="|/projeto/${projeto.id}/tarefa|">Tarefas</a></li>
+		<li th:classappend="${#httpServletRequest.getRequestURI().contains('/evento') ? 'active':''}"><a th:href="|/projeto/${projeto.id}/evento|">Eventos</a></li>
+		<li th:classappend="${#httpServletRequest.getRequestURI().contains('/estudo') ? 'active':''}"><a th:href="|/projeto/${projeto.id}/estudo|">Estudos</a></li>
+		<li th:classappend="${#httpServletRequest.getRequestURI().contains('/arquivo') ? 'active':''}"><a th:href="|/projeto/${projeto.id}/arquivo|">Arquivos</a></li>
+		<li th:classappend="${#httpServletRequest.getRequestURI().contains('/relatorio') ? 'active':''}"><a th:href="|/projeto/${projeto.id}/relatorio|">Relatórios</a></li>
+	</ul>
+</nav>
+
+</html>

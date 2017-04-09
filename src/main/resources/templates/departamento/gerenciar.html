@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+
+<head>
+<title>Gerenciar Departamentos</title>
+</head>
+
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header">
+				<h1 sec:authorize="hasRole('ADMIN')">
+					<span>Gerenciar Departamentos</span>
+					<small>Utilize o formulário abaixo</small>
+				</h1>
+			</header>
+		</div>
+	</div>
+
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+				<div>
+					<div class="row form-pesquisa-listar">
+						<form th:action="@{/departamento/cadastrar}" method="post" th:object="${departamento}" class="crud-simples">
+							<th:block th:include="layout/mensagemErro"></th:block>
+							<fieldset>
+								<legend>Utilize o formulário abaixo para cadastrar um departamento</legend>
+								<div class="form-group col-md-1">
+									<label for="id">Id</label> <input type="text"
+										class="form-control" id="id" name="id" th:field="*{id}" disabled="disabled"/>
+								</div>			
+								<div class="form-group col-md-2">
+									<label for="sigla">Sigla</label> <input type="text"
+										class="form-control" id="sigla" name="sigla" th:field="*{sigla}" />
+								</div>			
+								<div class="form-group col-md-4">
+									<label for="nome">Nome</label> <input type="text"
+										class="form-control" id="nome" name="nome" th:field="*{nome}" />
+								</div>			
+								<div class="form-group col-md-5">
+									<button id="salvar-departamento" type="submit"
+										class="btn btn-default">Salvar Departamento</button>
+								</div>
+							</fieldset>
+						</form>					
+			  		</div>
+				
+					<th:block th:include="layout/mensagemSucesso"></th:block>
+					
+					<div class="principal">
+						<table class="table " th:if="${not #lists.isEmpty(departamentos)}" >
+								<tr>
+									<th>Id</th>
+									<th>Sigla</th>
+									<th>Nome</th>
+									<th>Ações</th>
+								</tr>
+								<tr th:each="departamento :  ${departamentos}">
+									<td th:text="${departamento.id}"></td>
+									<td th:text="${departamento.sigla}"></td>
+									<td th:text="${departamento.nome}"></td>
+									<td>
+										<a title="Editar Departamento" class="btn btn-acao" th:href="|/departamento/${departamento.id}/editar|">
+											<span class="glyphicon glyphicon-pencil"></span>
+										</a>	
+										<a title="Remover Departamento" class="btn btn-acao" th:href="|/departamento/${departamento.id}/excluir|">
+											<span class="glyphicon glyphicon-remove"></span>
+										</a>				
+									</td>
+								</tr>
+							</table>
+		
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</body>
+</html>

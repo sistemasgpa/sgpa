@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="plataforma/layout">
+<head>
+<title th:text="#{site.news.title}"></title>
+</head>
+<body>
+
+	<div layout:fragment="layout-container" class="container">
+		<div class="row">
+			<div class="col-md-9">
+                    <div class="page-header">
+                        <h1>
+							<span th:text="#{site.news.title}"></span>
+							<small th:text="#{site.news.subtitle}"></small>
+						</h1>
+                    </div>
+                    
+                    <div th:each="noticia : ${pagina.conteudo}" class="noticia">
+                        <a th:href="|/site/noticias/${noticia.id}" class="noticia-titulo">
+                        	<h2 th:text="${noticia.titulo}"></h2>
+                        </a>
+                        <p class="noticia-chamada" th:text="${#strings.abbreviate(noticia.conteudo,150)}"></p>
+                        <p class="noticia-detalhes" >
+                        	<span th:text="${noticia.categoria.descricao}"></span>
+                        	<span th:text="${#dates.format(noticia.data, 'dd/MM/yyyy')}"></span>
+						</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h2 class="titulo-categoria" th:text="#{site.news.category}"></h2>
+                    <div class="list-group">
+                        <a th:each="categoria : ${listaCategoriaNoticia}" th:href="|/site/noticias?categoria=${categoria.id}|" class="list-group-item" th:text="${categoria.descricao}"></a>
+                    </div>
+                </div>          
+		</div>
+	</div>
+
+</body>
+</html>

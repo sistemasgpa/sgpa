@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+
+<head>
+<title>Enviar Relatório</title>
+</head>
+
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header page-header-projeto">
+				<h1>
+					<span th:text="${projeto.titulo}" th:remove="tag"></span> 
+					<small>Enviar Relatório</small>
+				</h1>
+				<th:block th:include="layout/menuProjeto"></th:block>
+			</header>
+		</div>
+	</div>
+
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="crud-ver">
+					<h2 th:text="${relatorio.descricao}"></h2>
+					<ul>
+						<li><strong>Data Criação:</strong> <span th:text="${relatorio.dataCriacao}"></span></li>
+						<li><strong>Data Limite:</strong> <span th:text="${relatorio.dataLimite}"></span></li>
+					</ul>
+					<form th:action="|/projeto/${projeto.id}/relatorio/${relatorio.id}/enviar|" th:object="${envioRelatorio}" method="post">
+						<th:block th:include="layout/mensagemErro"></th:block>
+						<div class="form-group col-md-12">
+							<label for="texto">Escreva o Texto do Relatório no Campo Abaixo</label> 
+							<textarea class="form-control" th:field="*{texto}"  rows="20" cols=""></textarea>
+						</div>
+						
+					<div>
+						<button type="submit" class="btn btn-default pull-right">Enviar Relatório</button>
+					</div>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

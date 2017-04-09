@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="plataforma/layout">
+<head>
+<title th:text="#{site.projects.title}"></title>
+</head>
+<body>
+
+	<div layout:fragment="layout-container" class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="page-header">
+					<h1>
+						<span th:text="#{site.projects.title}"></span> <small
+							th:text="#{site.projects.subtitle}"></small>
+					</h1>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<form class="form-filter" th:action="@{/site/projetos}" method="get" th:object="${projetoFilter}" >
+					<div class="form-group col-md-5">
+						<label for="titulo" th:text="#{form.project.register.title}"></label> 
+						<input type="text" class="form-control" th:field="*{titulo}" />
+					</div>
+					<div class="form-group col-md-3">
+							<label for="categoria" th:text="#{form.project.register.category}"></label>
+								<select class="form-control" th:field="*{categoria}">
+									<option value="" th:text="#{form.project.register.category.message}"></option>
+									<option th:each="categoria : ${listaCategoriaProjeto}"
+									th:value="${categoria.id}" th:text="${categoria.nome}"></option>
+							</select>
+						</div>
+
+						<div class="form-group col-md-2">
+							<label for="status"  th:text="#{form.project.register.status}"></label>
+							<select class="form-control" th:field="*{status}">
+								<option value="" th:text="#{form.project.register.status.message}"></option>
+								<option th:each="status : ${listaStatusProjeto}"
+									th:value="${status}" th:text="${status.descricao}"></option>
+							</select>
+						</div>
+						
+						
+					<div class="form-group col-md-2">
+						<button type="submit" class="btn btn-default btn-filter" th:text="#{form.project.list.button}"></button>
+					</div>
+					<div class="clearfix"></div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+
+			<div class="col-sm-12 col-md-6" th:each="projeto : ${pagina.conteudo}">
+				<div class="media">
+					<div class="media-body">
+						<a href="detalhe-projeto.html" class="media-heading" th:href="|/site/projetos/${projeto.id}|">
+							<h2 th:text="${projeto.titulo}"></h2>
+						</a>
+						<p class="media-dest"><span th:text="${projeto.categoria.nome}"></span></p>
+						<p th:text="${#strings.abbreviate(projeto.descricao,150)}"></p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+<head>
+<title>Relatórios do Projeto</title>
+</head>
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header page-header-projeto">
+				<h1>
+					<span th:text="${projeto.titulo}" th:remove="tag"></span> 
+					<small>Relatórios do Projeto</small>
+				</h1>
+				<th:block th:include="layout/menuProjeto"></th:block>
+			</header>
+		</div>
+	</div>
+
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="conteudo-centro">
+					<div th:if="${participacao.isCoordenador()}" class="acao">
+						<a id="btn-adicionar-estudo" class="btn btn-default btn-add-modulo" th:href="|/projeto/${projeto.id}/relatorio/cadastrar|">
+							Definir Novo Relatório
+						</a>
+					</div>
+					<div class="principal">
+						
+						<th:block th:include="layout/mensagemSucesso"></th:block>
+					
+						<table class="table table-crud" th:if="${not #lists.isEmpty(relatorios)}">
+							<thead>
+								<tr>
+									<th>Descrição</th>
+									<th>Atribuido a</th>
+									<th>Data Limite</th>
+									<th>Data Envio</th>
+									<th>Situação</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								
+								<tr th:each="relatorio : ${relatorios}" th:with="dono = ${relatorio.participacao.usuario.email == participacao.usuario.email}, coordenador = ${participacao.isCoordenador()}">
+									<th:block th:if="${dono or coordenador}">
+										<td th:text="${relatorio.descricao}"></td>
+										<td th:text="${relatorio.participacao.usuario.nome}"></td>
+										<td th:text="${relatorio.dataLimite} ? ${#dates.format(relatorio.dataLimite, 'dd/MM/yyyy')}"></td>
+										<td th:text="${relatorio.dataEnvio} ? ${#dates.format(relatorio.dataEnvio, 'dd/MM/yyyy')}"></td>
+										<td>
+											<span class="label label-default" th:text="${relatorio.getSituacao()}"></span>
+										</td>
+										<td>
+											<a th:if="${coordenador and not relatorio.enviado}" class="btn btn-acao" th:href="|/projeto/${projeto.id}/relatorio/${relatorio.id}/editar|" title="Editar">
+												<span class="glyphicon glyphicon-pencil"></span>
+											</a>
+											<a th:if="${coordenador}" class="btn btn-acao" th:href="|/projeto/${projeto.id}/relatorio/${relatorio.id}/excluir|" title="Excluir">
+												<span class="glyphicon glyphicon-remove"></span>
+											</a>
+											<a th:if="${dono and not relatorio.enviado}" class="btn btn-acao" th:href="|/projeto/${projeto.id}/relatorio/${relatorio.id}/enviar|" title="Enviar Relatório">
+												<span class="glyphicon glyphicon-open-file"></span>
+											</a>
+										</td>
+									</th:block>
+								</tr>
+								
+							</tbody>
+						</table>
+						<p th:if="${#lists.isEmpty(relatorios)}">Nenhum Relatório Cadastrado</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

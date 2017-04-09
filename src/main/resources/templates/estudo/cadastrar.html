@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+
+<head>
+<title>Registrar Novo Estudos do Projeto</title>
+</head>
+
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header page-header-projeto">
+				<h1>
+					<span th:text="${projeto.titulo}" th:remove="tag"></span> <small>Registre
+						seus estudos</small>
+				</h1>
+				<th:block th:include="layout/menuProjeto"></th:block>
+			</header>
+		</div>
+	</div>
+
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+
+				<th:block th:include="layout/mensagemSucesso"></th:block>
+
+				<form th:action="|/projeto/${projeto.id}/estudo|" method="post"
+					th:object="${estudo}">
+					
+					<input type="hidden" th:field="*{id}" />
+					<input type="hidden" th:field="*{participacao}" />
+					
+					<input type="hidden" name="projeto" th:value="${projeto.id}" />
+					
+					<th:block th:include="layout/mensagemErro"></th:block>
+
+					<fieldset>
+						<legend>Dados Básicos</legend>
+						<div class="form-group col-md-9">
+							<label for="nome">Título</label> <input type="text"
+								class="form-control" th:field="*{titulo}" />
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="tipo">Tipo</label> <select class="form-control"
+								th:field="*{tipo}">
+								<option value="">Selecione um Tipo</option>
+								<option th:each="tipo : ${listaTipoPublicacao}"
+									th:value="${tipo}" th:text="${tipo.descricao}"></option>
+							</select>
+						</div>
+
+						<div class="form-group col-md-9">
+							<label for="autoria">Autoria</label> <input type="text"
+								class="form-control" th:field="*{autoria}" />
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="ano">Ano</label> <input type="number"
+								class="form-control" th:field="*{ano}" />
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>Resumo</legend>
+
+						<div class="form-group col-md-12">
+							<label for="objetivos">Objetivos</label>
+							<textarea class="form-control" rows="5" th:field="*{objetivos}"></textarea>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="justificativas">Justificativas</label>
+							<textarea class="form-control" rows="5"
+								th:field="*{justificativas}"></textarea>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="metodologia">Metodologia</label>
+							<textarea class="form-control" rows="5" th:field="*{metodologia}"></textarea>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="resultados">Resultados</label>
+							<textarea class="form-control" rows="5" th:field="*{resultados}"></textarea>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="conclusao">Conclusão</label>
+							<textarea class="form-control" rows="5" th:field="*{conclusao}"></textarea>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="observacoes">Observações</label>
+							<textarea class="form-control" rows="5" th:field="*{observacoes}"></textarea>
+						</div>
+					</fieldset>
+
+					<div>
+						<button type="submit" class="btn btn-default pull-right">Registrar
+							Novo Estudo</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

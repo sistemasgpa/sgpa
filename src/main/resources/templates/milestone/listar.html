@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+
+<head>
+<title th:text="#{form.milestone.list.title}"></title>
+</head>
+
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header page-header-projeto">
+				<h1>
+					<span th:text="${projeto.titulo}" th:remove="tag"></span> 
+					<small th:text="#{form.milestone.list.message}"></small>
+				</h1>
+				<th:block th:include="layout/menuProjeto"></th:block>
+			</header>
+		</div>
+	</div>
+
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="conteudo-centro">
+					<div class="acao" th:if="${participacao.isCoordenador()}">
+						<a id="btn-adicionar-milestone" class="btn btn-default btn-add-modulo" th:href="|/projeto/${projeto.id}/milestone/cadastrar|" 
+							role="button" th:text="#{form.milestone.list.button}"></a>
+					</div>
+					<div class="principal">
+					
+					<th:block th:include="layout/mensagemSucesso"></th:block>
+					
+						<table class="table tabela-milestone" th:if="${not #lists.isEmpty(projeto.milestones)}">
+							<thead>
+								<tr>
+									<th th:text="#{form.milestone.register.title}"></th>
+									<th th:text="#{form.milestone.register.description}"></th>
+									<th th:text="#{form.milestone.register.startdate}"></th>
+									<th th:text="#{form.milestone.register.enddate}"></th>
+									<th th:text="#{form.milestone.list.finishdate}"></th>
+									<th th:text="#{form.milestone.register.total}"></th>
+									<th th:text="#{form.milestone.list.status}"></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="milestone : ${projeto.milestones}">
+									<td>
+									<a th:href="|/projeto/${projeto.id}/milestone/${milestone.id}/editar|" th:text="${milestone.titulo}"></a>
+										<a href="" ></a>
+									</td>
+									<td th:text="${milestone.descricao}"></td>
+									<td th:text="${#dates.format(milestone.dataInicio, 'dd/MM/yyyy')}"></td>
+									<td th:text="${#dates.format(milestone.dataLimite, 'dd/MM/yyyy')}"></td>
+									<td th:text="${milestone.dataConclusao} ? ${#dates.format(milestone.dataConclusao, 'dd/MM/yyyy')}"></td>
+									<td><span th:text="${milestone.totalConcluido}"></span>%</td>
+									<td th:text="${milestone.getSituacao()}"></td>
+									<td>
+										<a th:if="${participacao.isCoordenador()}" class="btn btn-acao" th:href="|/projeto/${projeto.id}/milestone/${milestone.id}/editar|" >
+											<span class="glyphicon glyphicon-pencil"></span>
+										</a>
+										<a th:if="${participacao.isCoordenador()}" class="btn btn-acao" th:href="|/projeto/${projeto.id}/milestone/${milestone.id}/excluir|">
+											<span class="glyphicon glyphicon-remove"></span>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<p class="lista-vazia" th:if="${#lists.isEmpty(projeto.milestones)}" th:text="#{form.milestone.list.empty}"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<th:block layout:fragment="layout-scripts">
+		<script th:src="@{/js/bootstrap-multiselect.js}"></script>
+		<script th:src="@{/js/modulos/milestones/Milestone.js}"></script>
+		<script th:src="@{/js/modulos/milestones/Milestones.js}"></script>
+		<script>
+			(function() {
+				$(document).ready(function() {
+					Milestones.init();
+
+				});
+			}());
+		</script>
+	</th:block>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Layout</title>
+
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<link th:href="@{/css/app.css}" rel="stylesheet" />
+	
+<th:block layout:fragment="css-stylesheets"></th:block>
+	
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+					<span class="sr-only"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">SGPA-IFSP</a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li sec:authorize="hasRole('ADMIN')" th:classappend="${#httpServletRequest.getRequestURI().contains('/projeto') ? 'active':''}">
+					<a th:href="@{/projeto}" th:text="#{main.menu.projects1}"></a>
+				</li>
+				<li sec:authorize="hasRole('PADRAO')" th:classappend="${#httpServletRequest.getRequestURI().contains('/projeto') ? 'active':''}">
+					<a th:href="@{/projeto}" th:text="#{main.menu.projects2}"></a>
+					</li>
+				<li sec:authorize="hasRole('ADMIN')" th:classappend="${#httpServletRequest.getRequestURI().contains('/usuario') ? 'active':''}">
+					<a th:href="@{/usuario}" th:text="#{main.menu.users}"></a>
+				</li>
+				<li sec:authorize="hasRole('ADMIN')" th:classappend="${#httpServletRequest.getRequestURI().contains('/noticia') ? 'active':''}">
+					<a th:href="@{/noticia}" th:text="#{main.menu.news}"></a>
+				</li>
+				<!-- 
+				<li sec:authorize="hasRole('ADMIN')" th:classappend="${#httpServletRequest.getRequestURI().contains('/configuracao') ? 'active':''}">
+					<a th:href="@{/configuracao}"  th:text="#{main.menu.configuration}"></a>
+				</li>
+				 -->
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="true"
+					aria-expanded="false"><span sec:authentication="principal.nome"></span> <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a th:href="@{/usuario/perfil}"  th:text="#{main.menu.profile}"></a></li>
+						<li role="separator" class="divider"></li>
+						<li><a th:href="@{/doLogout}" th:text="#{main.menu.logout}"></a></li>
+					</ul></li>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
+	</nav>
+
+	<div class="container container-conteudo">
+
+		<div layout:fragment="layout-titulo" class="row"></div>
+
+		<div layout:fragment="layout-conteudo" class="conteudo-centro"></div>
+
+	</div>
+
+	<div layout:fragment="layout-modal"></div>
+
+	<script src="../static/js/jquery-3.1.1.min.js"
+		th:src="@{/js/jquery-3.1.1.min.js}"></script>
+	<script src="../static/js/bootstrap.min.js"
+		th:src="@{/js/bootstrap.min.js}"></script>
+
+	<div layout:fragment="layout-scripts"></div>
+
+</body>
+</html>

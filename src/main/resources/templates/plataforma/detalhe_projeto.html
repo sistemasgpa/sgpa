@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="plataforma/layout">
+<head>
+<title th:text="#{site.projects.title}"></title>
+</head>
+<body>
+
+	<div layout:fragment="layout-container" class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<th:block th:include="layout/mensagemSucesso"></th:block>
+				<div class="page-header">
+					<a class="link-voltar" th:href="|/site/projetos|"><span
+						class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+						 <span th:text="#{site.back}"></span>
+					</a>
+					<div class="data-project">
+						<h1>
+							<span th:text="${projeto.titulo}"></span>
+							<small th:text="${projeto.categoria.nome}"></small>
+						</h1>
+						<p th:text="${projeto.status.descricao}"></p>
+					</div>
+					<div class="clearfix"></div>
+					<div class="desc-project" th:text="${projeto.descricao}"></div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="page-section">
+					<h2 th:text="#{site.projects.coordinators}"></h2>
+					<ul>
+						<li th:each="coordenador : ${projeto.obterCoordenadores()}">
+							<span th:text="${coordenador.nome}"></span>	(<span th:text="${coordenador.email}"></span>)
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="page-section">
+					<h2 th:text="#{site.projects.members}"></h2>
+					<ul>
+						<li th:each="membro : ${projeto.obterMembros()}">
+							<span th:text="${membro.nome}"></span>	(<span th:text="${membro.email}"></span>)
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="page-section">
+					<h2 th:text="#{site.projects.contact.title}"></h2>
+					<p th:text="#{site.projects.contact.message}"></p>
+					<form th:action="@{|/site/projetos/${projeto.id}|}" method="post"
+					th:object="${formularioContato}">
+					
+					<th:block th:include="layout/mensagemErro"></th:block>
+						
+						<div class="form-group col-md-6">
+							<label for="nome" th:text="#{site.projects.contact.name}"></label> 
+							<input type="text" class="form-control" th:field="*{nome}" />
+						</div>
+						<div class="form-group col-md-6">
+							<label for="email" th:text="#{site.projects.contact.email}"></label> 
+							<input type="email" class="form-control" th:field="*{email}"/>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="mensagem" th:text="#{site.projects.contact.text}"></label>
+							<textarea class="form-control" th:field="*{mensagem}" cols="20">
+							</textarea>
+						</div>
+						<div class="form-group col-md-12">
+							<button type="submit" class="btn btn-default pull-right" h:text="#{site.projects.contact.button}"></button>
+						</div>
+						<div class="clearfix"></div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</body>
+</html>

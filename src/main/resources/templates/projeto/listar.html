@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+
+<head>
+<title th:text="#{form.project.list.title1}"></title>
+</head>
+
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header">
+				<h1 sec:authorize="hasRole('ADMIN')">
+					<span th:text="#{form.project.list.title1}"></span>
+					<small th:text="#{form.project.list.message1}"></small>
+				</h1>
+				<h1 sec:authorize="hasRole('PADRAO')">
+					<span th:text="#{form.project.list.title2}"></span>
+					<small th:text="#{form.project.list.message2}"></small>
+				</h1>
+			</header>
+		</div>
+	</div>
+
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+				<div>
+					<div class="row form-pesquisa-listar">
+						<form th:action="@{/projeto}" method="get" th:object="${projetoFilter}" >
+							<div class="form-group col-md-3">
+								<label for="titulo" th:text="#{form.project.register.title}"></label> 
+								<input type="text" class="form-control" th:field="*{titulo}" />
+							</div>
+							<div class="form-group col-md-3">
+								<label for="status" th:text="#{form.project.register.status}"></label>
+								<select class="form-control" th:field="*{status}">
+									<option value="" th:text="#{form.project.register.status.message}"></option>
+									<option th:each="status : ${listaStatusProjeto}"
+										th:value="${status}" th:text="${status.descricao}"></option>
+								</select>
+							</div>
+							<div class="form-group col-md-3">
+								<button type="submit"
+								class="btn btn-default" th:text="#{form.project.list.button}"></button>
+							</div>
+						</form>						
+			  		</div>
+				
+					<th:block th:include="layout/mensagemSucesso"></th:block>
+	
+					<div class="div-crud" >
+						<a  sec:authorize="hasRole('ADMIN')" id="btn-adicionar-projeto" class="btn btn-default" th:href="|/projeto/cadastrar|" th:text="#{form.project.list.button.register}">Criar Novo Projeto</a>
+					</div>
+					
+					<div class="principal">
+		
+					<table class="table tabela-atividade">
+								<tbody>
+									<tr>
+										<th th:text="#{form.project.register.title}"></th>
+										<th th:text="#{form.project.register.description}"></th>
+										<th th:text="#{form.project.register.status}"></th>
+										<th th:text="#{form.project.register.category}"></th>
+										<th class="nowrap" th:text="#{form.project.register.startdate}"></th>
+										<th class="nowrap" th:text="#{form.project.register.enddate}"></th>
+										<th></th>
+									</tr>
+									<tr th:each="projeto : ${pagina.conteudo}">
+										<td>
+											<a th:href="|/projeto/${projeto.id}/milestone|">
+												<span th:text="${projeto.titulo}"></span>
+											</a>
+										</td>
+										<td th:text="${#strings.abbreviate(projeto.descricao,50)}"></td>
+										<td th:text="${projeto.status.descricao}"></td>
+										<td th:text="${projeto.categoria.nome}"></td>
+										<td th:text="${projeto.dataInicio} ? ${#dates.format(projeto.dataInicio, 'dd/MM/yyyy')}"></td>
+										<td th:text="${projeto.dataTermino} ? ${#dates.format(projeto.dataTermino, 'dd/MM/yyyy')}"></td>
+										<th:block th:with="expr_result = ${projeto.isCoordenador(#authentication.name) or #authorization.expression('hasRole(''ADMIN'')')}">
+											<td th:if="${expr_result}">
+												<a class="btn btn-acao" th:href="|/projeto/${projeto.id}/editar|">
+													<span class="glyphicon glyphicon-pencil"></span>
+												</a>
+											</td>
+											<td th:unless="${expr_result}"></td>
+										</th:block>
+									</tr>
+									
+								</tbody>
+							</table>
+							
+							<div class="col-sm-12 text-center" th:if="${not pagina.vazia}">
+						<nav aria-label="Page navigation">
+							<ul class="pagination">
+								<li th:class="${pagina.primeira} ? disabled"><a
+									th:href="${pagina.urlPaginacao(pagina.atual - 1)}"
+									aria-label="Previous" th:remove="${pagina.primeira} ? all">
+										<span aria-hidden="true">&laquo;</span>
+								</a></li>
+								<th:block th:each="p : ${#numbers.sequence(1, pagina.total)}"
+									th:with="numeroPagina=${p-1}">
+									<li th:class="${pagina.atual == numeroPagina} ? active"><a
+										th:href="${pagina.urlPaginacao(numeroPagina)}" th:text="${p}"></a>
+									</li>
+								</th:block>
+								<li th:class="${pagina.ultima} ? disabled"><a
+									th:href="${pagina.urlPaginacao(pagina.atual + 1)}"
+									aria-label="Next" th:remove="${pagina.ultima} ? all"> <span
+										aria-hidden="true">&raquo;</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>	
+							
+						</div>
+							
+					</div>	
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

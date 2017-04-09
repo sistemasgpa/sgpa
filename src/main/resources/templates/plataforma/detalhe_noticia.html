@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="plataforma/layout">
+<head>
+<title th:text="#{site.projects.title}"></title>
+</head>
+<body>
+	<div layout:fragment="layout-container" class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<a class="link-voltar" th:href="|/site/noticias|">
+				<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+					<span th:text="#{site.back}"></span>
+				</a>
+
+				<div class="page-header">
+					<h1>
+						<span th:text="${noticia.titulo}"></span>
+						<small th:text="|(${noticia.categoria.descricao}) - ${#dates.format(noticia.data, 'dd/MM/yyyy')}|"></small>
+					</h1>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="page-section" th:text="${noticia.conteudo}"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

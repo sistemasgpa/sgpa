@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout/layout">
+
+<head>
+<title>Registrar Novo Estudos do Projeto</title>
+</head>
+
+<body>
+	<div layout:fragment="layout-titulo" class="row">
+		<div class="col-md-12">
+			<header class="page-header page-header-projeto">
+				<h1>
+					<span th:text="${projeto.titulo}" th:remove="tag"></span> 
+					<small>Estudo estudo estudo</small>
+				</h1>
+				<th:block th:include="layout/menuProjeto"></th:block>
+			</header>
+		</div>
+	</div>
+
+	<div layout:fragment="layout-conteudo" class="conteudo-centro">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="crud-ver">
+					<h2 th:text="${estudo.titulo}"></h2>
+					
+					
+					<ul>
+						<li><strong>Autor:</strong> <span th:text="${estudo.autoria}"></span></li>
+						<li><strong>Tipo Publicação:</strong> <span th:text="${estudo.tipo.descricao}"></span></li>
+						<li><strong>Ano:</strong> <span th:text="${estudo.ano}"></span></li>
+					</ul>
+					
+					<h3>Objetivos</h3>
+					<p th:text="${estudo.objetivos}"></p>
+					<h3>Justificativas</h3>
+					<p th:text="${estudo.justificativas}"></p>
+					<h3>Metodologia</h3>
+					<p th:text="${estudo.metodologia}"></p>
+					<h3>Resultados</h3>
+					<p th:text="${estudo.resultados}"></p>
+					<h3>Conclusões</h3>
+					<p th:text="${estudo.conclusao}"></p>
+					<h3>Observações</h3>
+					<p th:text="${estudo.observacoes}"></p>
+					
+				</div>
+				<th:block th:with="expr_result = ${participacao.isCoordenador() or estudo.participacao.usuario.email == participacao.usuario.email}">
+					<a th:if="${expr_result}" class="btn btn-acao" th:href="|/projeto/${projeto.id}/estudo/${estudo.id}/editar|" >
+						<span class="glyphicon glyphicon-pencil"></span>
+					</a>
+					<a th:if="${expr_result}" class="btn btn-acao" th:href="|/projeto/${projeto.id}/estudo/${estudo.id}/excluir|" >
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+					</th:block>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
